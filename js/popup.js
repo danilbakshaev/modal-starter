@@ -12,6 +12,7 @@ $(() => {
   const modalWrapper = $('.modal-wrapper');
   const body = $('body');
   const buttonClose = $('.modal-wrapper__close');
+  const modalBg = $('.modal-wrapper__bg');
 
   //Функция закрытия всех модалок в контейнере modal-wrapper
   function closeAllModal() {
@@ -21,9 +22,20 @@ $(() => {
     modalLeftMenu.removeClass('show');
   }
 
+  //Варианты закрытия попапов
   buttonClose.click(function (){
     closeAllModal();
   })
+
+  modalBg.click(function (){
+    closeAllModal();
+  })
+
+  $(document).keyup(function(e) {
+    if (e.key === "Escape" || e.keyCode === 27) {
+      closeAllModal();
+    }
+  });
 
   buttonCallback.click(function (){
     // console.log("buttonCallback");
