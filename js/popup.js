@@ -1,53 +1,101 @@
-$(() => {
-  // МОДАЛКИ
-  // Кнопки вызова модалки
-  const buttonCallback = $('.openCallback');
-  const buttonMenu = $('.openMenu');
+(function() {
+  
+  //Вызов окна колбека
+  openCallback = document.querySelector('.openCallback');
+  callbackModal = document.querySelector('.modal-wrapper__callback');
 
-  // Сама модалка
-  const modalCallback = $('.modal-wrapper__callback');
-  const modalLeftMenu = $('.modal-wrapper__left-menu');
+  openCallback.addEventListener('click', function () {
+    openBaseModal();
+    callbackModal.classList.remove('hidden');
+    setTimeout(function () {
+      callbackModal.classList.remove('animation');
+    }, 20);
+  })
 
-  //Доп
-  const modalWrapper = $('.modal-wrapper');
-  const body = $('body');
-  const buttonClose = $('.modal-wrapper__close');
-  const modalBg = $('.modal-wrapper__bg');
+  function closecallbackPopup() {
+    if (!callbackModal.classList.contains('hidden')) {
+      callbackModal.classList.add('animation');    
+      callbackModal.addEventListener('transitionend', function(e) {
+        callbackModal.classList.add('hidden');
+      }, {
+        capture: false,
+        once: true,
+        passive: false
+      });
+    }
+  };
 
-  //Функция закрытия всех модалок в контейнере modal-wrapper
+  //Вызов окна колбека
+  openLeftMenu = document.querySelector('.openMenu');
+  leftMenuModal = document.querySelector('.modal-wrapper__left-menu');
+
+  openLeftMenu.addEventListener('click', function () {
+    openBaseModal();
+    leftMenuModal.classList.remove('hidden');
+    setTimeout(function () {
+      leftMenuModal.classList.remove('animation');
+    }, 20);
+  })
+
+  function closeleftMenuModal() {
+    if (!leftMenuModal.classList.contains('hidden')) {
+      leftMenuModal.classList.add('animation');    
+      leftMenuModal.addEventListener('transitionend', function(e) {
+        leftMenuModal.classList.add('hidden');
+      }, {
+        capture: false,
+        once: true,
+        passive: false
+      });
+    }
+
+  };
+
   function closeAllModal() {
-    body.removeClass('noflow');
-    modalWrapper.removeClass('show');
-    modalCallback.removeClass('show');
-    modalLeftMenu.removeClass('show');
-  }
+    closecallbackPopup();
+    closeleftMenuModal();
+    closeBaseModal();
+  };
 
-  //Варианты закрытия попапов
-  buttonClose.click(function (){
+  //База модальных окон
+  body = document.querySelector('body');
+  modalWrapper = document.querySelector('.modal-wrapper');
+  modalWrapperBg = document.querySelector('.modal-wrapper__bg');
+  modalWrapperClose = document.querySelector('.modal-wrapper__close');
+
+  function openBaseModal() {
+    body.classList.add('noflow');
+    modalWrapper.classList.remove('hidden');
+    setTimeout(function () {
+      modalWrapper.classList.remove('animation');
+    }, 20);
+  };
+
+  function closeBaseModal() {
+    body.classList.remove('noflow');
+    modalWrapper.classList.add('animation');    
+    modalWrapper.addEventListener('transitionend', function(e) {
+      modalWrapper.classList.add('hidden');
+    }, {
+      capture: false,
+      once: true,
+      passive: false
+    });
+  };
+
+  modalWrapperClose.addEventListener('click', function () {
     closeAllModal();
   })
 
-  modalBg.click(function (){
+  modalWrapperBg.addEventListener('click', function () {
     closeAllModal();
   })
 
-  $(document).keyup(function(e) {
-    if (e.key === "Escape" || e.keyCode === 27) {
+  document.onkeydown = function(e) {
+    e = e || window.event;
+    if (e.key=='Escape'||e.key=='Esc'||e.keyCode==27) {
       closeAllModal();
     }
-  });
+  };
 
-  buttonCallback.click(function (){
-    // console.log("buttonCallback");
-    modalWrapper.addClass('show');
-    modalCallback.addClass('show');
-    body.addClass('noflow');
-  })
-
-  buttonMenu.click(function (){
-    // console.log("buttonMenu");
-    modalWrapper.addClass('show');
-    modalLeftMenu.addClass('show');
-    body.addClass('noflow');
-  })
-})
+})();
