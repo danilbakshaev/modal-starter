@@ -1,7 +1,13 @@
 .noflow {
   overflow: hidden;
-  padding-right: 15px;
 }
+
+@media screen and (min-width: 1200px) {
+  .noflow {
+    padding-right: 15px;
+  }
+}
+
 .modal-wrapper__close{
   position: absolute;
   right: -30px;
